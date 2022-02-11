@@ -9,6 +9,11 @@ const port = process.env.PORT || 5000;
 
 app.use(express.json());
 
+app.get('/product', async (_req, res) => {
+  const products = await Product.findAll();
+  res.status(200).json(products);
+});
+
 app.post('/product', async (req, res) => {
   const { name, description } = req.body;
 
