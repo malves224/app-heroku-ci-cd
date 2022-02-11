@@ -1,9 +1,20 @@
+// arquivo/index.js
+
 const express = require('express');
-require('dotenv').config();
+
+const { Product } = require('./models');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
-app.get('/', (req, res) => res.send('<h1> o Bicho ta vivo </h1>'));
+app.use(express.json());
 
-app.listen(port, () => console.log(`Rodando na porta: ${port}`));
+app.post('/product', async (req, res) => {
+  const { name, description } = req.body;
+
+  const product = await Product.create({ name, description });
+
+  return res.status(201).json(product);
+});
+
+app.listen(port, () => console.log(`Servidor online na porta ${port}`));
